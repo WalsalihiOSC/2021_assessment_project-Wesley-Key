@@ -5,8 +5,13 @@
 # Imports
 from tkinter import *
 from student_class import *
+from tkinter import messagebox
 
 root = Tk()
+root.title("Ormiston Primary Mathematics")
+root.geometry("500x270")
+
+#Colour of bg - #add8e6ff
 
 '''Colours
 # yellow (check button, new student btn) - #ffd639
@@ -38,12 +43,12 @@ class Interface:
         Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=2)
         # Student Name
         Label(self.main,font=("Arial 14 bold"),text="Student Name: ",bg='#add8e6').grid(row=3,column=2, sticky=W)
-        self.stn=Entry(self.main)
+        self.stn=Entry(self.main, bg='#add8e6')
         self.stn.grid(row=3,column=2, sticky=E)
         
         # Student Year Level
-        Label(self.main, font="Arial 15 bold", text="Year Level: ",bg='#add8e6').grid(row=4,column=2,sticky=W)
-        self.yl = Entry(self.main)
+        Label(self.main, font="Arial 15 bold", text="Year Level: ",bg='#add8e6').grid(row=4,column=2,sticky=SW, pady=5)
+        self.yl = Entry(self.main,bg='#add8e6')
         self.yl.grid(row=4, column=2, sticky=E)
         
         # Difficulty
@@ -65,8 +70,36 @@ class Interface:
         
         # Next Button
         Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=7, pady=50)
-        next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10")
+        next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
         next_btn.grid(row=7,column=3, padx=10)
         
-
+    def questions_win(self):
+        # Get users input
+        self.stname = (self.stn.get().capitalize())
+        self.ylvl = self.yl.get()
+        self.diff = self.tkvar.get()
         
+        # Creating instance of students class with users input
+        self.student = Student(self.stn, self.yl, self.tkvar) 
+        self.questions = self.student.questions()
+        self.year = self.student.year_level()
+        
+        # If entry boxes are empty or year level is not between 1 and 6, error message is set
+        if len(self.stname)==0 or len(self.ylvl)==0 or len(self.diff)==0:
+            self.notvalid = True
+            messagebox.showerror("ERROR", "No empty boxes please!")
+        elif self.ylvl not in self.year:
+            self.notvalid = True
+            messagebox.showerror("ERROR", "You have to be in Year 1, 2, 3, 4, 5 or 6!!")
+        else:
+            self.notvalid = False
+            self.q = []
+        
+            # Destroying widgets from first window and replacing with new
+            for widget in self.main.winfo_children():
+                widget.destroy()
+            
+            # Interface   
+
+Interface(root).welcome_frame()
+root.mainloop()
