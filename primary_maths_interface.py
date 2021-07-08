@@ -6,6 +6,8 @@
 from tkinter import *
 from student_class import *
 from tkinter import messagebox
+from random import *
+
 
 root = Tk()
 root.title("Ormiston Primary Mathematics")
@@ -33,21 +35,20 @@ class Interface:
         self.main.grid()
         
         # Header
-        Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=0)
         self.heading = Label(self.main, font=("Arial 28 bold"), text="PRIMARY MATHEMATICS", fg="black",bg='#add8e6')
-        self.heading.grid(row=1, column=2)
+        self.heading.grid(row=0, column=2, pady=10, sticky=E)
         
         # Logo
         
         # Asking User for their input using input boxes
         Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=2)
         # Student Name
-        Label(self.main,font=("Arial 14 bold"),text="Student Name: ",bg='#add8e6').grid(row=3,column=2, sticky=W)
+        Label(self.main,font=("Arial 14 bold"),text=" Student Name: ",bg='#add8e6', relief=SOLID, bd=1).grid(row=3,column=2, sticky=W)
         self.stn=Entry(self.main, bg='#add8e6')
         self.stn.grid(row=3,column=2, sticky=E)
         
         # Student Year Level
-        Label(self.main, font="Arial 15 bold", text="Year Level: ",bg='#add8e6').grid(row=4,column=2,sticky=SW, pady=5)
+        Label(self.main, font="Arial 15 bold", text="    Year Level:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=4,column=2,sticky=W, pady=5)
         self.yl = Entry(self.main,bg='#add8e6')
         self.yl.grid(row=4, column=2, sticky=E)
         
@@ -60,8 +61,8 @@ class Interface:
         self.tkvar.set('Choose')
         
         self.dropdown = OptionMenu(self.main, self.tkvar, *self.choices)
-        Label(self.main, font="Arial 15 bold", text="Difficulty: ",bg='#add8e6').grid(row=5, column=2, sticky=W)
-        self.dif = self.dropdown.grid(row=5, column=2, sticky=E)
+        Label(self.main, font="Arial 15 bold", text="      Difficulty:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=5, column=2, sticky=W)
+        self.dif = self.dropdown.grid(row=5, column=2, sticky=E, pady=3)
         
         def change_dropdown(*args):
             print(self.tkvar.get())
@@ -69,9 +70,8 @@ class Interface:
         self.tkvar.trace('w', change_dropdown)
         
         # Next Button
-        Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=7, pady=50)
         next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
-        next_btn.grid(row=7,column=3, padx=10)
+        next_btn.grid(row=7,column=3, padx=10, pady=50)
         
     def questions_win(self):
         # Get users input
@@ -81,8 +81,8 @@ class Interface:
         
         # Creating instance of students class with users input
         self.student = Student(self.stn, self.yl, self.tkvar) 
-        self.questions = self.student.questions()
-        self.year = self.student.year_level()
+        self.range = self.student.range()
+        self.year = self.student.year_l()
         
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
         if len(self.stname)==0 or len(self.ylvl)==0 or len(self.diff)==0:
@@ -99,7 +99,18 @@ class Interface:
             for widget in self.main.winfo_children():
                 widget.destroy()
             
-            # Interface   
+            # Interface
+            # New Widgets (labels, buttons, math questions and entry boxes)
+            
+            # Title
+            # Header
+            Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=0)
+            Label(self.main, font=("Arial 28 bold"), text="Addition", fg="black",bg='#add8e6').grid(row=1, column=2)
+
+            # Layout for the questions (5 columns)
+            
+            
+            
 
 Interface(root).welcome_frame()
 root.mainloop()
