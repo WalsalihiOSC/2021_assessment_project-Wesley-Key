@@ -5,13 +5,17 @@
 # Imports
 from tkinter import *
 from student_class import *
+
+from tkinter import Image 
 from tkinter import messagebox
+from math import *
 from random import *
 
-
+# Window
 root = Tk()
 root.title("Ormiston Primary Mathematics")
-root.geometry("500x270")
+root.geometry("540x300+500+250")
+
 
 #Colour of bg - #add8e6ff
 
@@ -36,9 +40,11 @@ class Interface:
         
         # Header
         self.heading = Label(self.main, font=("Arial 28 bold"), text="PRIMARY MATHEMATICS", fg="black",bg='#add8e6')
-        self.heading.grid(row=0, column=2, pady=10, sticky=E)
+        self.heading.grid(row=0, column=2, pady=20, padx=(30,10))
         
-        # Logo
+        '''# Logo
+        self.logo = PhotoImage('logo.png')
+        Label(self.main, image=self.logo).grid(row=0, column=1, pady=(10,50))'''
         
         # Asking User for their input using input boxes
         Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=2)
@@ -54,19 +60,21 @@ class Interface:
         
         # Difficulty
         # Drop down box for the different difficulty types
+        '''If user picks 'Easy' then only addition window shows
+               If 'Medium' - addition and subtraction
+               If 'Hard' - addition, subtraction and multiplication
+               If 'Expert' - addition, subtraction, multiplaction and division'''
         # Create Tkinter Variable
         self.tkvar = StringVar(root)
         # Set options
-        self.choices = ['Level 1', 'Level 2', 'Level 3']
+        self.choices = ['Easy', 'Medium', 'Hard', 'Expert']
         self.tkvar.set('Choose')
-        
         self.dropdown = OptionMenu(self.main, self.tkvar, *self.choices)
+        # Create Label
         Label(self.main, font="Arial 15 bold", text="      Difficulty:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=5, column=2, sticky=W)
         self.dif = self.dropdown.grid(row=5, column=2, sticky=E, pady=3)
-        
         def change_dropdown(*args):
             print(self.tkvar.get())
-        
         self.tkvar.trace('w', change_dropdown)
         
         # Next Button
@@ -91,23 +99,67 @@ class Interface:
         elif self.ylvl not in self.year:
             self.notvalid = True
             messagebox.showerror("ERROR", "You have to be in Year 1, 2, 3, 4, 5 or 6!!")
+        elif self.diff == "Choose":
+            self.notvalid = True
+            messagebox.showerror("ERROR", "Please pick a level! ")
         else:
             self.notvalid = False
-            self.q = []
-        
+
+            # Range fro 2 different numbers
+            self.num1 = random.randint(self.range)
+            self.num2 = random.randint(self.range)
+            
             # Destroying widgets from first window and replacing with new
             for widget in self.main.winfo_children():
                 widget.destroy()
             
-            # Interface
-            # New Widgets (labels, buttons, math questions and entry boxes)
-            
+            # New widgets (labels, entry boxes and buttons)
             # Title
-            # Header
-            Label(self.main, text="         ",bg='#add8e6').grid(column=1,row=0)
-            Label(self.main, font=("Arial 28 bold"), text="Addition", fg="black",bg='#add8e6').grid(row=1, column=2)
+            Label(self.main, font="Arial 24 bold", text="Addition", fg="black", bg="#add8e6").grid(row=0, column=4)
 
-            # Layout for the questions (5 columns)
+            # Logo
+            '''self.logo = PhotoImage('logo.png')
+            Label(self.main, image=self.logo).grid(row=0, column=1, pady=(10,50))'''
+            Label(self.main, text="               ", bg="#add8e6").grid(row=0, column=0)
+            
+            # Questions
+            # Create 5 columns for the questions
+            
+            # Row 1 of questions
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=2, row=2,padx=(0,20))
+            self.q1 = Entry(self.main, width=5,bg="#007cbe").grid(column=2,row=3,padx=(0,20))
+            
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=4, row=2)
+            self.q2 = Entry(self.main, width=5,bg="#007cbe").grid(column=4,row=3)
+            
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=6, row=2,padx=(20,0))
+            self.q3 = Entry(self.main, width=5,bg="#007cbe").grid(column=6,row=3,padx=(20,0))
+            
+            # Row 2
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=3, row=3, pady=(20,0))
+            self.q4 = Entry(self.main, width=5,bg="#007cbe").grid(column=3,row=4)
+            
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=5, row=3, pady=(20,0))
+            self.q5 = Entry(self.main, width=5,bg="#007cbe").grid(column=5,row=4)
+        
+            # Row 3
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=2, row=5,padx=(0,20))
+            self.q6 = Entry(self.main, width=5,bg="#007cbe").grid(column=2,row=6,padx=(0,20))
+            
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=4, row=5)
+            self.q7 = Entry(self.main, width=5,bg="#007cbe").grid(column=4,row=6)
+            
+            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=6, row=5)
+            self.q8 = Entry(self.main, width=5,bg="#007cbe").grid(column=6,row=6,padx=(20,0))
+            
+            # Check Button
+            
+            
+            
+                
+                
+            
+            
             
             
             
