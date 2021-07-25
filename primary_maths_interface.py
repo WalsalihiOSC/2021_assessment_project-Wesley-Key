@@ -67,7 +67,7 @@ class Interface:
         # Create Tkinter Variable
         self.tkvar = StringVar(root)
         # Set options
-        self.choices = ['Easy', 'Medium', 'Hard', 'Expert']
+        self.choices = ['Addition', 'Subtraction', 'Multiplication', 'Division']
         self.tkvar.set('Choose')
         self.dropdown = OptionMenu(self.main, self.tkvar, *self.choices)
         # Create Label
