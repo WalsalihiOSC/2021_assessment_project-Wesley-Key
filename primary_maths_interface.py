@@ -9,12 +9,13 @@ from student_class import *
 from tkinter import Image 
 from tkinter import messagebox
 from math import *
-from random import *
+import random
+import operator
 
 # Window
 root = Tk()
 root.title("Ormiston Primary Mathematics")
-root.geometry("540x300+500+250")
+root.geometry("580x300+500+250")
 
 
 #Colour of bg - #add8e6ff
@@ -40,7 +41,7 @@ class Interface:
         
         # Header
         self.heading = Label(self.main, font=("Arial 28 bold"), text="PRIMARY MATHEMATICS", fg="black",bg='#add8e6')
-        self.heading.grid(row=0, column=2, pady=20, padx=(30,10))
+        self.heading.grid(row=0, column=2, pady=20, padx=(30,30))
         
         '''# Logo
         self.logo = PhotoImage('logo.png')
@@ -60,10 +61,6 @@ class Interface:
         
         # Difficulty
         # Drop down box for the different difficulty types
-        '''If user picks 'Easy' then only addition window shows
-               If 'Medium' - addition and subtraction
-               If 'Hard' - addition, subtraction and multiplication
-               If 'Expert' - addition, subtraction, multiplaction and division'''
         # Create Tkinter Variable
         self.tkvar = StringVar(root)
         # Set options
@@ -74,12 +71,12 @@ class Interface:
         Label(self.main, font="Arial 15 bold", text="      Difficulty:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=5, column=2, sticky=W)
         self.dif = self.dropdown.grid(row=5, column=2, sticky=E, pady=3)
         def change_dropdown(*args):
-            print(self.tkvar.get())
+            self.lvl = (self.tkvar.get())
         self.tkvar.trace('w', change_dropdown)
         
         # Next Button
         next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
-        next_btn.grid(row=7,column=3, padx=10, pady=50)
+        next_btn.grid(row=7,column=3, padx=20, pady=50)
         
     def questions_win(self):
         # Get users input
@@ -104,18 +101,39 @@ class Interface:
             messagebox.showerror("ERROR", "Please pick a level! ")
         else:
             self.notvalid = False
-
-            # Range fro 2 different numbers
-            self.num1 = random.randint(self.range)
-            self.num2 = random.randint(self.range)
+            self.questions_win = Frame(self.main_window)
+            
             
             # Destroying widgets from first window and replacing with new
             for widget in self.main.winfo_children():
                 widget.destroy()
             
+            # Dictionary of signs
+            self.x = random.randint(0,12)
+            self.x = random.randint(0,12)
+            
+            operators = {
+            '+':operator.add,
+            '-':operator.sub,
+            '*':operator.mul,
+            '/':operator.truediv
+            }
+            
+            operation = random.choice(list(operators.keys()))
+            answer = operators.get(operation)(self.x,self.y)
+            
+            if self.lvl == "Addition":
+                sign = "+"
+            elif self.lvl == "Subtraction":
+                sign = "-"
+            elif self.lvl == "Multiplication":
+                sign = "x"
+            else:
+                sign = "÷"
+            
             # New widgets (labels, entry boxes and buttons)
             # Title
-            Label(self.main, font="Arial 24 bold", text="Addition", fg="black", bg="#add8e6").grid(row=0, column=4)
+            Label(self.main, font="Arial 24 bold", text=f"{self.lvl}", fg="black", bg="#add8e6").grid(row=0, column=4, pady=10)
 
             # Logo
             '''self.logo = PhotoImage('logo.png')
@@ -126,43 +144,38 @@ class Interface:
             # Create 5 columns for the questions
             
             # Row 1 of questions
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=2, row=2,padx=(0,20))
+            Label(self.main, font="arial 20", text=f"{self.a}{sign}{self.b}", bg="#add8e6").grid(column=2, row=2,padx=(0,20))
             self.q1 = Entry(self.main, width=5,bg="#007cbe").grid(column=2,row=3,padx=(0,20))
             
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=4, row=2)
+            Label(self.main, font="arial 20", text=f"{self.c}{sign}{self.a}", bg="#add8e6").grid(column=4, row=2)
             self.q2 = Entry(self.main, width=5,bg="#007cbe").grid(column=4,row=3)
             
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=6, row=2,padx=(20,0))
+            Label(self.main, font="arial 20", text=f"{self.e}{sign}{self.g}", bg="#add8e6").grid(column=6, row=2,padx=(20,0))
             self.q3 = Entry(self.main, width=5,bg="#007cbe").grid(column=6,row=3,padx=(20,0))
             
             # Row 2
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=3, row=3, pady=(20,0))
+            Label(self.main, font="arial 20", text=f"{self.f}{sign}{self.e}", bg="#add8e6").grid(column=3, row=3, pady=(20,0))
             self.q4 = Entry(self.main, width=5,bg="#007cbe").grid(column=3,row=4)
             
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=5, row=3, pady=(20,0))
+            Label(self.main, font="arial 20", text=f"{self.f}{sign}{self.g}", bg="#add8e6").grid(column=5, row=3, pady=(20,0))
             self.q5 = Entry(self.main, width=5,bg="#007cbe").grid(column=5,row=4)
         
             # Row 3
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=2, row=5,padx=(0,20))
+            Label(self.main, font="arial 20", text=f"{self.e}{sign}{self.a}", bg="#add8e6").grid(column=2, row=5,padx=(0,20))
             self.q6 = Entry(self.main, width=5,bg="#007cbe").grid(column=2,row=6,padx=(0,20))
             
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=4, row=5)
+            Label(self.main, font="arial 20", text=f"{self.g}{sign}{self.c}", bg="#add8e6").grid(column=4, row=5)
             self.q7 = Entry(self.main, width=5,bg="#007cbe").grid(column=4,row=6)
             
-            Label(self.main, font="arial 20", text="1 x 3", bg="#add8e6").grid(column=6, row=5)
+            Label(self.main, font="arial 20", text=f"{self.b}{sign}{self.c}", bg="#add8e6").grid(column=6, row=5, padx=(20,0))
             self.q8 = Entry(self.main, width=5,bg="#007cbe").grid(column=6,row=6,padx=(20,0))
             
-            # Check Button
+            # Check Button 
+            check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10")
+            check_btn.grid(row=7,column=7, padx=10, pady=20)
             
-            
-            
-                
-                
-            
-            
-            
-            
-            
+    def check():
+        
 
 Interface(root).welcome_frame()
 root.mainloop()

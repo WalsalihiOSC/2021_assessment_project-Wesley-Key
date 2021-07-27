@@ -3,10 +3,10 @@
 # Wesley Key
 
 class Student:
-    def __init__(self, stn, yl, dif):
+    def __init__(self, stn, yl, tkvar):
         self.student_name = stn
         self.year_level = yl
-        self.difficulty = dif
+        self.difficulty = tkvar
     
     def year_l(self):
         if self.year_level not in ["1", "2", "3","4","5","6"]:
@@ -14,12 +14,12 @@ class Student:
         
     def range(self):
         if self.difficulty == "Addition":
-            return (1,5)
+            return (1,12)
         elif self.difficulty == "Subtraction":
-            return (3,7)
+            return (1,12)
         elif self.difficulty == "Multiplication":
-            return (5, 9)
+            return (1,10)
         else: 
-            return (6,12)
+            return (1,12)
         
         
