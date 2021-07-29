@@ -3,6 +3,7 @@
 # Wesley Key
 
 # Imports
+from hashlib import new
 from tkinter import *
 from student_class import *
 
@@ -16,6 +17,13 @@ import operator
 root = Tk()
 root.title("Ormiston Primary Mathematics")
 root.geometry("580x300+500+250")
+
+'''Colours
+# yellow (check button, new student btn) - #ffd639
+# dark blue (text box bg, restart button) - #007cbe
+# green (next button, ticks) - #4cbb17
+# light blue (bg) - #add8e6
+# red (red crosses, done button)- #ed1c24'''
 
 # Define Class
 class Interface:
@@ -67,7 +75,20 @@ class Interface:
         # Next Button
         next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
         next_btn.grid(row=7,column=3, padx=20, pady=50)
+    
+        # Creating instance of students class with users input
+        self.student = Student(self.stn, self.yl, self.tkvar) 
+        self.range = self.student.range()
+        self.year = self.student.year_l()
         
+    def check(self,var1):
+        if var1 == str(self.answer()):
+            right = Label(self.main, text="Correct!", fg="Green", font="Arial 10", bg="#add8e6")
+            right.grid(column=3, row=3)
+        elif var1 != str(self.answer()):
+            wrong = Label(self.main, text="Wrong!", fg="red", font="Arial 10", bg="#add8e6")
+            wrong.grid(column=3, row=3)    
+    
     def questions_win(self):
         # Get users input
         self.stname = (self.stn.get().capitalize())
@@ -78,7 +99,7 @@ class Interface:
         self.student = Student(self.stn, self.yl, self.tkvar) 
         self.range = self.student.range()
         self.year = self.student.year_l()
-        
+    
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
         if len(self.stname)==0 or len(self.ylvl)==0 or len(self.diff)==0:
             self.notvalid = True
@@ -95,60 +116,59 @@ class Interface:
             # Destroying widgets from first window and replacing with new
             for widget in self.main.winfo_children():
                 widget.destroy()
-            
-            # Using dictionary for the different signs
-            self.operators = {
-                "+":operator.add,
-                "-":operator.sub,
-                "*":operator.mul,
-                "/":operator.truediv
-            }
-            if self.method == "     Addition    ":
-                sign = "+"
-                self.operation = list(self.operators.keys())
-                self.x = random.randint(1,12)
-                self.y = random.randint(1,12)
-            elif self.method == " Subtraction  ":
-                sign = "-"
-                self.x = random.randint(1,15)
-                self.y = random.randint(1,15)
-            elif self.method == "Multiplication":
-                sign = "x"
-                self.x = random.randint(0,12)
-                self.y = random.randint(0,12)
-            else:
-                sign = "÷"
-                self.x = random.randrange(0,15,2)
-                self.y = random.randint(0,10)
-
-             
-            
-            # New widgets (labels, entry boxes and buttons)
+                
+             # New widgets (labels, entry boxes and buttons)
             # Title
             Label(self.main, font="Arial 28 bold", text=f"{self.method}", fg="black", bg="#add8e6").grid(row=0, column=2, pady=20, padx=(30,30))
             Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2, padx=50)
             
-            # Questions
-            # Create 5 columns for the questions
-            # Row 1 of questions
-            Label(self.main, font="arial 30", text=f"{self.x} {sign} {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-            self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+            # Numbers
+            self.x = random.choice(self.range)
+            self.y = random.choice(self.range)
+            
+            if self.method == "     Addition    ":
+                # Question with +
+                Label(self.main, font="arial 30", text=f"{self.x} + {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                
+            elif self.method == " Subtraction  ":
+                # Question with -
+                Label(self.main, font="arial 30", text=f"{self.x} - {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+            
+            elif self.method == "Multiplication":
+                # Question with x
+                Label(self.main, font="arial 30", text=f"{self.x} x {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                
+            else:
+                # Question with ÷
+                Label(self.main, font="arial 30", text=f"{self.x} ÷ {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
             
             # Check Button 
-            self.check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10", command=self.check)
+            self.check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10", command=self.check(self.question))
             self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
             
-            self.back_btn = Button(self.main, )
-            
-    def check(self):
-        self.user_answer = self.question
+            self.back_btn = Button(self.main, text="Back",fg="black",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
+    
+    def answer(self):
+        self.questions_win
         
-        if self.user_answer == self.correct_answer:
-            self.check_btn.destroy() # Destroy check button
-            
-            # Replace check button with next button
-            self.next = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10")
-            self.next.grid(row=4,column=3, padx=(50,40), pady=(35,60))
+        if self.method == "     Addition    ":
+            return self.x + self.y
+        elif self.method == " Subtraction  ":
+            return self.x - self.y
+        elif self.method == "Multiplication":
+            return self.x * self.y
+        else:
+            return self.x / self.y
+        
+    
+        
+        
+    
+        
             
             
         
