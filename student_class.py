@@ -13,13 +13,18 @@ class Student:
             return ["1", "2","3","4","5","6"]
         
     def range(self):
-        if self.difficulty == "Addition":
-            return (1,12)
-        elif self.difficulty == "Subtraction":
-            return (1,12)
-        elif self.difficulty == "Multiplication":
-            return (1,10)
-        else: 
-            return (1,12)
+        if self.year_level == 1:
+            return [0,1,2,3,4,5]
+        elif self.year_level == 2:
+            return [0,2,3,4,5,6,7]
+        elif self.year_level == 3:
+            return [0,3,4,5,6,7,8,9]
+        elif self.year_level == 4:
+            return [0,4,5,6,7,8,9,10]
+        elif self.year_level == 5:
+            return [1,4,5,6,7,8,10,11,12]
+        else:
+            return[0,5,8,9,10,11,12,13,14,15]
+        
         
         
