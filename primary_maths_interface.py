@@ -101,11 +101,7 @@ class Interface:
             messagebox.showerror("ERROR", "Please enter your name")
         elif len(self.ylvl)==0:
             self.notvalid = True
-            messagebox.showerror("ERROR","Please enter your year level")
-        #elif len(self.diff)==0:
-            #self.notvalid = True
-            
-            #messagebox.showerror("Error")
+            messagebox.showerror("ERROR","Please enter your year level")    
         elif self.ylvl not in self.year:
             self.notvalid = True
             messagebox.showerror("ERROR", "You have to be in Year 1, 2, 3, 4, 5 or 6!!")
@@ -164,7 +160,7 @@ class Interface:
             correct = Label(self.main, text="Correct!", fg="green", font="arial 30 bold")
             correct.grid(column=3, row=3)
         else:
-            wrong = Label(self.main, root, text="Wrong!", fg="red")
+            wrong = Label(self.main, text="Wrong!", fg="red")
             wrong.grid(column=3, row=3)
 
     
