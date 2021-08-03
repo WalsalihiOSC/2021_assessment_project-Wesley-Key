@@ -11,7 +11,7 @@ from tkinter import Image
 from tkinter import messagebox
 from math import *
 import random
-import operator
+
 
 # Window
 root = Tk()
@@ -45,12 +45,14 @@ class Interface:
         Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2)
         
         # Student Name
-        Label(self.main,font=("Arial 14 bold"),text=" Student Name: ",bg='#add8e6', relief=SOLID, bd=1).grid(row=3,column=2, sticky=W)
+        self.student_name = Label(self.main,font=("Arial 14 bold"),text=" Student Name: ",bg='#add8e6', relief=SOLID, bd=1)
+        self.student_name.grid(row=3,column=2, sticky=W)
         self.stn=Entry(self.main, bg='#add8e6')
         self.stn.grid(row=3,column=2, sticky=E)
         
         # Student Year Level
-        Label(self.main, font="Arial 15 bold", text="    Year Level:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=4,column=2,sticky=W, pady=5)
+        self.year = Label(self.main, font="Arial 15 bold", text="    Year Level:    ",bg='#add8e6', relief=SOLID, bd=1)
+        self.year.grid(row=4,column=2,sticky=W, pady=5)
         self.yl = Entry(self.main,bg='#add8e6')
         self.yl.grid(row=4, column=2, sticky=E)
         
@@ -65,7 +67,8 @@ class Interface:
         self.dropdown = OptionMenu(self.main, self.tkvar, *self.choices)
         
         # Create Label
-        Label(self.main, font="Arial 15 bold", text="      Difficulty:    ",bg='#add8e6', relief=SOLID, bd=1).grid(row=5, column=2, sticky=W)
+        self.difficulty = Label(self.main, font="Arial 15 bold", text="      Difficulty:    ",bg='#add8e6', relief=SOLID, bd=1)
+        self.difficulty.grid(row=5, column=2, sticky=W)
         self.dif = self.dropdown.grid(row=5, column=2, sticky=E, pady=3)
         
         def change_dropdown(*args):
@@ -73,21 +76,13 @@ class Interface:
         self.tkvar.trace('w', change_dropdown)
         
         # Next Button
-        next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
+        next_btn = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2",width="10",command=self.questions_win)
         next_btn.grid(row=7,column=3, padx=20, pady=50)
     
         # Creating instance of students class with users input
         self.student = Student(self.stn, self.yl, self.tkvar) 
         self.range = self.student.range()
-        self.year = self.student.year_l()
-        
-    def check(self,var1):
-        if var1 == str(self.answer()):
-            right = Label(self.main, text="Correct!", fg="Green", font="Arial 10", bg="#add8e6")
-            right.grid(column=3, row=3)
-        elif var1 != str(self.answer()):
-            wrong = Label(self.main, text="Wrong!", fg="red", font="Arial 10", bg="#add8e6")
-            wrong.grid(column=3, row=3)    
+        self.year = self.student.year_l()   
     
     def questions_win(self):
         # Get users input
@@ -101,15 +96,22 @@ class Interface:
         self.year = self.student.year_l()
     
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
-        if len(self.stname)==0 or len(self.ylvl)==0 or len(self.diff)==0:
+        if len(self.stname)==0:
             self.notvalid = True
-            messagebox.showerror("ERROR", "No empty boxes please!")
+            messagebox.showerror("ERROR", "Please enter your name")
+        elif len(self.ylvl)==0:
+            self.notvalid = True
+            messagebox.showerror("ERROR","Please enter your year level")
+        #elif len(self.diff)==0:
+            #self.notvalid = True
+            
+            #messagebox.showerror("Error")
         elif self.ylvl not in self.year:
             self.notvalid = True
             messagebox.showerror("ERROR", "You have to be in Year 1, 2, 3, 4, 5 or 6!!")
         elif self.diff == "Choose":
             self.notvalid = True
-            messagebox.showerror("ERROR", "Please pick a level! ")
+            messagebox.showerror("ERROR", "Please pick a difficulty! ")
         else:
             self.notvalid = False
             
@@ -119,7 +121,8 @@ class Interface:
                 
              # New widgets (labels, entry boxes and buttons)
             # Title
-            Label(self.main, font="Arial 28 bold", text=f"{self.method}", fg="black", bg="#add8e6").grid(row=0, column=2, pady=20, padx=(30,30))
+            self.title = Label(self.main, font="Arial 28 bold", text=f"{self.method}", fg="black", bg="#add8e6")
+            self.title.grid(row=0, column=2, pady=20, padx=(30,30))
             Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2, padx=50)
             
             # Numbers
@@ -129,30 +132,43 @@ class Interface:
             if self.method == "     Addition    ":
                 # Question with +
                 Label(self.main, font="arial 30", text=f"{self.x} + {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
+                self.question.grid(column=2, row=3,pady=(20,0))
                 
             elif self.method == " Subtraction  ":
                 # Question with -
                 Label(self.main, font="arial 30", text=f"{self.x} - {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
+                self.question.grid(column=2, row=3,pady=(20,0))
             
             elif self.method == "Multiplication":
                 # Question with x
                 Label(self.main, font="arial 30", text=f"{self.x} x {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
+                self.question.grid(column=2, row=3,pady=(20,0))
                 
             else:
                 # Question with ÷
                 Label(self.main, font="arial 30", text=f"{self.x} ÷ {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20").grid(column=2, row=3,pady=(20,0))
+                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
+                self.question.grid(column=2, row=3,pady=(20,0))
             
             # Check Button 
-            self.check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10", command=self.check(self.question))
+            self.check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
             self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
             
-            self.back_btn = Button(self.main, text="Back",fg="black",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
+            self.back_btn = Button(self.main,text="Back",fg="black",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10",command=self.welcome_frame)
     
-    def answer(self):
+    def checkb(self, var1):
+        if var1.get() == str(self.correct_answer()):
+            correct = Label(self.main, text="Correct!", fg="green", font="arial 30 bold")
+            correct.grid(column=3, row=3)
+        else:
+            wrong = Label(self.main, root, text="Wrong!", fg="red")
+            wrong.grid(column=3, row=3)
+
+    
+    def correct_answer(self):
         self.questions_win
         
         if self.method == "     Addition    ":
