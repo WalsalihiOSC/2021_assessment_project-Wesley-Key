@@ -115,7 +115,7 @@ class Interface:
             for widget in self.main.winfo_children():
                 widget.destroy()
                 
-             # New widgets (labels, entry boxes and buttons)
+            # New widgets (labels, entry boxes and buttons)
             # Title
             self.title = Label(self.main, font="Arial 28 bold", text=f"{self.method}", fg="black", bg="#add8e6")
             self.title.grid(row=0, column=2, pady=20, padx=(30,30))
@@ -155,15 +155,33 @@ class Interface:
             
             self.back_btn = Button(self.main,text="Back",fg="black",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10",command=self.welcome_frame)
     
+    # Function for the check button, return correct or wrong label
     def checkb(self, var1):
+        self.score = 0
         if var1.get() == str(self.correct_answer()):
-            correct = Label(self.main, text="Correct!", fg="green", font="arial 30 bold")
-            correct.grid(column=3, row=3)
+            correct = Label(self.main, text="✓", fg="green", font="arial 30 bold", bg="#add8e6")
+            correct.grid(column=3, row=3, sticky=W)
+            self.score += 1
+            
+            # Display score
+            show_score = Label(self.main, text=f"{self.score}/10 answers corrrect!")
+            show_score.grid(column=3, row=4)
+            
+            # Destroy Check Button
+            self.check_btn.destroy()
+            
+            # Replace with next button
+            self.next_btn = Button(self.main,text="Next ⮕",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
+            self.next_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
+            
         else:
-            wrong = Label(self.main, text="Wrong!", fg="red")
-            wrong.grid(column=3, row=3)
+            wrong = Label(self.main, text="✘", fg="red", font="arial 30 bold", bg="#add8e6")
+            wrong.grid(column=3, row=3, sticky=W)
+            
+            
 
     
+    # Function to return correct answer
     def correct_answer(self):
         self.questions_win
         
@@ -179,7 +197,8 @@ class Interface:
     
         
         
-    
+    def quit(self):
+        self.main_window.destroy()
         
             
             
