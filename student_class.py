@@ -9,22 +9,18 @@ class Student:
         self.difficulty = tkvar
     
     def year_l(self):
-        if self.year_level not in ["1", "2", "3","4","5","6"]:
-            return ["1", "2","3","4","5","6"]
+        if self.year_level not in ["1","2","3","4","5","6"]:
+            return ["1","2","3","4","5","6"]
         
     def range(self):
-        if self.year_level == 1:
-            return [0,1,2,3,4,5]
-        elif self.year_level == 2:
-            return [0,2,3,4,5,6,7]
-        elif self.year_level == 3:
-            return [0,3,4,5,6,7,8,9]
-        elif self.year_level == 4:
-            return [0,4,5,6,7,8,9,10]
-        elif self.year_level == 5:
-            return [1,4,5,6,7,8,10,11,12]
+        if self.year_level == 1 or self.year_level == 2:
+            return [1,2,3,4]
+        elif self.year_level == 3 or self.year_level == 4:
+            return [2,3,4,5,6]
         else:
-            return[0,5,8,9,10,11,12,13,14,15]
+            return [4,5,6,7,8]
+    
+   # def leaderboard(self):
         
         
         

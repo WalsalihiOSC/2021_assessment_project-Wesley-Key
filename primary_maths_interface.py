@@ -150,36 +150,34 @@ class Interface:
                 self.question.grid(column=2, row=3,pady=(20,0))
             
             # Check Button 
-            self.check_btn = Button(self.main,text="Check ✓",fg="black",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
+            self.check_btn = Button(self.main,text="Check ✓",fg="#ffd639",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
             self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
             
-            self.back_btn = Button(self.main,text="Back",fg="black",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10",command=self.welcome_frame)
+            self.back_btn = Button(self.main,text="Back",fg="#ed1c24",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
+            self.back_btn.grid(column=1, row=4, pady=(35,60))
     
     # Function for the check button, return correct or wrong label
     def checkb(self, var1):
         self.score = 0
         if var1.get() == str(self.correct_answer()):
-            correct = Label(self.main, text="✓", fg="green", font="arial 30 bold", bg="#add8e6")
+            correct = Label(self.main, text="✓", fg="green", font="arial 40 bold", bg="#add8e6")
             correct.grid(column=3, row=3, sticky=W)
             self.score += 1
             
             # Display score
-            show_score = Label(self.main, text=f"{self.score}/10 answers corrrect!")
-            show_score.grid(column=3, row=4)
+            show_score = Label(self.main, text=f"{self.score}/10 answers\ncorrrect!", bg="#add8e6", font="arial 13 bold")
+            show_score.grid(column=3, row=4, sticky=N)
             
             # Destroy Check Button
             self.check_btn.destroy()
             
             # Replace with next button
-            self.next_btn = Button(self.main,text="Next ⮕",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
+            self.next_btn = Button(self.main,text="Next ⮕",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10")
             self.next_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
             
         else:
-            wrong = Label(self.main, text="✘", fg="red", font="arial 30 bold", bg="#add8e6")
+            wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
             wrong.grid(column=3, row=3, sticky=W)
-            
-            
-
     
     # Function to return correct answer
     def correct_answer(self):
@@ -194,9 +192,7 @@ class Interface:
         else:
             return self.x / self.y
         
-    
-        
-        
+    # Quit program function 
     def quit(self):
         self.main_window.destroy()
         
