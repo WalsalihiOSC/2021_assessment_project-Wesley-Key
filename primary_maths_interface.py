@@ -121,39 +121,28 @@ class Interface:
             self.title.grid(row=0, column=2, pady=20, padx=(30,30))
             Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2, padx=50)
             
-            # Numbers
+            # randomising numbers for questions
             self.x = random.choice(self.range)
             self.y = random.choice(self.range)
             
             if self.method == "     Addition    ":
-                # Question with +
-                Label(self.main, font="arial 30", text=f"{self.x} + {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
-                self.question.grid(column=2, row=3,pady=(20,0))
-                
+                self.sign = "+"
             elif self.method == " Subtraction  ":
-                # Question with -
-                Label(self.main, font="arial 30", text=f"{self.x} - {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
-                self.question.grid(column=2, row=3,pady=(20,0))
-            
+                self.sign = "-"
             elif self.method == "Multiplication":
-                # Question with x
-                Label(self.main, font="arial 30", text=f"{self.x} x {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
-                self.question.grid(column=2, row=3,pady=(20,0))
-                
+                self.sign = "x"
             else:
-                # Question with ÷
-                Label(self.main, font="arial 30", text=f"{self.x} ÷ {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
-                self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
-                self.question.grid(column=2, row=3,pady=(20,0))
+                self.sign = "÷"
+            
+            Label(self.main, font="arial 30", text=f"{self.x}{self.sign}{self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+            self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
+            self.question.grid(column=2, row=3,pady=(20,0))
             
             # Check Button 
             self.check_btn = Button(self.main,text="Check ✓",fg="#ffd639",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
             self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
             
-            self.back_btn = Button(self.main,text="Back",fg="#ed1c24",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
+            self.back_btn = Button(self.main,text="⬅ Back",fg="#ed1c24",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
             self.back_btn.grid(column=1, row=4, pady=(35,60))
     
     # Function for the check button, return correct or wrong label
