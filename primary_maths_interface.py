@@ -3,7 +3,6 @@
 # Wesley Key
 
 # Imports
-from hashlib import new
 from tkinter import *
 from student_class import *
 
@@ -56,8 +55,8 @@ class Interface:
         self.yl = Entry(self.main,bg='#add8e6')
         self.yl.grid(row=4, column=2, sticky=E)
         
-        # Difficulty
-        # Drop down box for the different difficulty types
+        # operations
+        # Drop down box for the different mathematical operations
         # Create Tkinter Variable
         self.tkvar = StringVar(root)
         
@@ -75,7 +74,7 @@ class Interface:
             self.method = (self.tkvar.get())
         self.tkvar.trace('w', change_dropdown)
         
-        # Next Button
+        # Save Button
         self.save_btn = Button(self.main,text="Save",fg="black",highlightbackground="#007cbe",font="arial 14 bold",height="2",width="10",command=self.check_input)
         self.save_btn.grid(row=7,column=3, padx=20, pady=50)
     
@@ -105,6 +104,8 @@ class Interface:
         elif self.ylvl not in self.year:
             self.notvalid = True
             messagebox.showerror("ERROR", "You have to be in Year 1, 2, 3, 4, 5 or 6!!")
+        
+        # If the user has not picked an operation
         elif self.diff == "Choose":
             self.notvalid = True
             messagebox.showerror("ERROR", "Please pick a difficulty! ")
@@ -128,7 +129,7 @@ class Interface:
         self.title.grid(row=0, column=2, pady=20, padx=(30,30))
         Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2, padx=50)
         
-        # set a sign to the method
+        # set a sign to the method to display in questions
         if self.method == "     Addition    ":
             self.sign = "+"
         elif self.method == " Subtraction  ":
@@ -143,28 +144,19 @@ class Interface:
         self.y = random.choice(self.range)
         
         # Display question and entry box
-        Label(self.main, font="arial 30", text=f"{self.x}{self.sign}{self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
+        Label(self.main, font="arial 30", text=f"{self.x} {self.sign} {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
         self.question = Entry(self.main, width=12,bg="#007cbe", fg="white", justify="center", font="arial 20")
         self.question.grid(column=2, row=3,pady=(20,0))
         
         # Check Button 
         self.check_btn = Button(self.main,text="Check ✓",fg="#ffd639",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
         self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
-        
-        self.back_btn = Button(self.main,text="⬅ Back",fg="#ed1c24",highlightbackground="#ed1c24",font="arial 14 bold",height="2", width="10")
-        self.back_btn.grid(column=1, row=4, pady=(35,60))
-        
+              
     # Function for the check button, return correct or wrong label
     def checkb(self, var1):
-        self.score=0
         if var1.get() == str(self.correct_answer()):
             correct = Label(self.main, text="✓", fg="green", font="arial 40 bold", bg="#add8e6")
             correct.grid(column=3, row=3, sticky=W)
-            self.score += 1
-            
-            # Display score
-            show_score = Label(self.main, text=f"{self.score}/10 answers\ncorrrect!", bg="#add8e6", font="arial 13 bold")
-            show_score.grid(column=3, row=4, sticky=N)
             
             # Destroy Check Button
             self.check_btn.destroy()
@@ -177,6 +169,7 @@ class Interface:
             wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
             wrong.grid(column=3, row=3, sticky=W)
             self.score -= 1
+            self.count_ten += 1
     
     # Function to return correct answer
     def correct_answer(self):
