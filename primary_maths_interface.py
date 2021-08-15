@@ -117,7 +117,10 @@ class Interface:
             
             self.next = Button(self.main,text="Next",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2",width="10",command=self.questions_win)
             self.next.grid(row=7,column=3, padx=20, pady=50)
-        
+
+            self.score = 0
+            self.ten_questions = 0
+            
     def questions_win(self):
         # destroy all widgets in first frame
         for widget in self.main.winfo_children():
@@ -151,27 +154,8 @@ class Interface:
         # Check Button 
         self.check_btn = Button(self.main,text="Check ✓",fg="#ffd639",highlightbackground="#ffd639",font="arial 14 bold",height="2", width="10",command=lambda: self.checkb(self.question))
         self.check_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
-              
-    # Function for the check button, return correct or wrong label
-    def checkb(self, var1):
-        if var1.get() == str(self.correct_answer()):
-            correct = Label(self.main, text="✓", fg="green", font="arial 40 bold", bg="#add8e6")
-            correct.grid(column=3, row=3, sticky=W)
-            
-            # Destroy Check Button
-            self.check_btn.destroy()
-            
-            # Replace with next button
-            self.next_btn = Button(self.main,text="Next ⮕",fg="black",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.questions_win)
-            self.next_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
-            
-        else:
-            wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
-            wrong.grid(column=3, row=3, sticky=W)
-            self.score -= 1
-            self.count_ten += 1
     
-    # Function to return correct answer
+     # Function to return correct answer
     def correct_answer(self):
         self.questions_win
         
@@ -183,7 +167,32 @@ class Interface:
             return self.x * self.y
         else:
             return self.x / self.y
-        
+                  
+    # Function for the check button, return correct or wrong label
+    def checkb(self, var1):
+        if var1.get() == str(self.correct_answer()):
+            self.questions_win()     
+            correct = Label(self.main, text="✓", fg="green", font="arial 40 bold", bg="#add8e6")
+            correct.grid(column=3, row=3, sticky=W)
+            # Add 1 to score
+            self.score += 1
+            # Display score
+            self.display_score = Label(self.main, text=f"{self.score}/10 correct", bg="#add8e6").grid(row=3, column=3)
+            
+            # Count how many questions - must be ten questions and when ten questions have beem reached, display leaderboard
+            self.ten_questions += 1 
+            self.display_count = Label(self.main, text=f"{self.ten_questions}/10",bg="#add8e6").grid(row=3, column=1)
+        else:
+            wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
+            wrong.grid(column=3, row=3, sticky=W)
+            self.score -= 1
+            # Display score
+            self.display_score = Label(self.main, text=f"{self.score}/10 correct", bg="#add8e6").grid(row=3, column=3)
+    
+    # When the user has answered ten questions, display the leaderboard
+    
+    
+    # Function   
     # Quit program function 
     def quit(self):
         self.main_window.destroy()       
