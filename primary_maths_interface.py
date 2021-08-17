@@ -36,6 +36,11 @@ class Interface:
         self.main = Frame(self.main_window, bg='#add8e6')
         self.main.grid()
         
+        # Destroy end window
+        if self.restart == True:
+            self.results_win.destroy()
+        self.restart = False
+        
         # Header
         self.heading = Label(self.main, font=("Arial 28 bold"), text="PRIMARY MATHEMATICS", fg="black",bg='#add8e6')
         self.heading.grid(row=0, column=2, pady=20, padx=(30,30))
@@ -44,14 +49,14 @@ class Interface:
         Label(self.main, text="             ",bg='#add8e6').grid(column=1,row=2)
         
         # Student Name
-        self.student_name = Label(self.main,font=("Arial 14 bold"),text=" Student Name: ",bg='#add8e6', relief=SOLID, bd=1)
-        self.student_name.grid(row=3,column=2, sticky=W)
+        student_name = Label(self.main,font=("Arial 14 bold"),text=" Student Name: ",bg='#add8e6', relief=SOLID, bd=1)
+        student_name.grid(row=3,column=2, sticky=W)
         self.stn=Entry(self.main, bg='#add8e6')
         self.stn.grid(row=3,column=2, sticky=E)
         
         # Student Year Level
-        self.year = Label(self.main, font="Arial 15 bold", text="    Year Level:    ",bg='#add8e6', relief=SOLID, bd=1)
-        self.year.grid(row=4,column=2,sticky=W, pady=5)
+        year = Label(self.main, font="Arial 15 bold", text="    Year Level:    ",bg='#add8e6', relief=SOLID, bd=1)
+        year.grid(row=4,column=2,sticky=W, pady=5)
         self.yl = Entry(self.main,bg='#add8e6')
         self.yl.grid(row=4, column=2, sticky=E)
         
@@ -76,12 +81,7 @@ class Interface:
         
         # Save Button
         self.save_btn = Button(self.main,text="Save",fg="black",highlightbackground="#007cbe",font="arial 14 bold",height="2",width="10",command=self.check_input)
-        self.save_btn.grid(row=7,column=3, padx=20, pady=50)
-    
-        # Creating instance of students class with users input
-        self.student = Student(self.stn, self.yl, self.tkvar) 
-        self.range = self.student.range()
-        self.year = self.student.year_l()   
+        self.save_btn.grid(row=7,column=3, padx=20, pady=50)   
     
     def check_input(self):
         # Get users input
@@ -90,9 +90,12 @@ class Interface:
         self.diff = self.tkvar.get()
         
         # Creating instance of students class with users input
-        self.student = Student(self.stn, self.yl, self.tkvar) 
-        self.range = self.student.range()
+        self.student = Student(self.stname, self.yl, self.ylvl, self.diff) 
+        self.num_range = self.student.ranges()
         self.year = self.student.year_l()
+        
+        print(self.year)
+        print(self.num_range)
     
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
         if len(self.stname)==0:
@@ -143,8 +146,8 @@ class Interface:
             self.sign = "÷"
             
         # randomising numbers for questions
-        self.x = random.choice(self.range)
-        self.y = random.choice(self.range)
+        self.x = random.choice(self.num_range)
+        self.y = random.choice(self.num_range)
         
         # Display question and entry box
         Label(self.main, font="arial 30", text=f"{self.x} {self.sign} {self.y}", bg="#add8e6").grid(column=2, row=2,pady=(20,0))
@@ -186,12 +189,37 @@ class Interface:
             wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
             wrong.grid(column=3, row=3, sticky=W)
             self.score -= 1
-            # Display score
-            self.display_score = Label(self.main, text=f"{self.score}/10 correct", bg="#add8e6").grid(row=3, column=3)
+        
+        # When the user has answered ten questions, display destory check button and replace with next button
+        if self.ten_questions == 10:
+            self.check_btn.destroy()
+            
+            self.finish_btn = Button(self.main,text="Finish ⮕",fg="#4cbb17",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10",command=self.results_win)
+            self.finish_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))
+            
+            self.student.confirm()          
     
-    # When the user has answered ten questions, display the leaderboard
-    
-    
+    def results_win(self):
+        self.restart == True
+        # Destroy all widgets in questions window
+        self.main.grid_forget()
+        for widget in self.main.winfo_children():
+            widget.destroy()
+        
+        self.results_win = Label(self.main_window)
+        self.results_win.grid()
+        
+        self.leaderboard = Label(self.results_win, text=f"You got {self.score} out of 10 :)").grid(column=2, row=1)
+        # Restart Button
+        self.restart_btn = Button(self.results_win,text="Restart",font="arial 14 bold",fg="black",highlightbackground="#007cbe",width="10",height="2",command=self.welcome_frame)
+        self.restart_btn.grid(column=1, row=3)
+        # New Student Button
+        self.addnew_btn = Button(self.results_win,text="New Student",font="arial 14 bold",fg="black",highlightbackground="#ffd639",width="12",height="2", command=self.welcome_frame)
+        self.addnew_btn.grid(column=2, row=3)
+        # Quit Button 
+        self.quit_btn = Button(self.results_win,text="Quit",font="arial 14 bold",fg="black",highlightbackground="#ed1c24",width="10",height="2", command=self.quit)
+        self.quit_btn.grid(column=3, row=3)
+
     # Function   
     # Quit program function 
     def quit(self):
