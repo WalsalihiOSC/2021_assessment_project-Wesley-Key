@@ -18,15 +18,15 @@ class Student:
         if self.range == "1" or self.range == "2":
             return [0,1,2,3,4]
         elif self.range == "3" or self.range == "4":
-            return [1,2,3,4,5]
+            return [0,4,5,6,7,8]
         else:
-            return [3,4,5,6,7]
+            return [0,7,8,9,10,11,12]
             
-    def confirm(self):
+    def write_file(self):
         results_file = open("math_results.text", "a")
         results_file.write("-------------------------\n")
         results_file.write(f"Student Name: {self.student_name} \n"
-                            f"Year Level: {self.year_level} \n"
+                            f"Year Level: {self.range} \n"
                             f"Operation: {self.difficulty}")
         
         results_file.write("-------------------------\n")
