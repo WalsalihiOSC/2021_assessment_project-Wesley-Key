@@ -94,6 +94,8 @@ class Interface:
         self.num_range = self.student.ranges()
         self.year = self.student.year_l()
         
+        
+        
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
         if len(self.stname)==0:
             self.notvalid = True
@@ -205,7 +207,7 @@ class Interface:
         self.results_win = Label(self.main_window, bg="#add8e6")
         self.results_win.grid()
         
-        self.leaderboard = Label(self.results_win, text=f"You got {self.score} out of 10 :)", font="arial 17 bold", bg="#add8e6").grid(column=2, row=1, pady=(110,20))
+        self.leaderboard = Label(self.results_win, text=f"{self.stname} got {self.score} out of 10 :)", font="arial 17 bold", bg="#add8e6").grid(column=2, row=1, pady=(110,20))
         # Restart Button
         self.restart_btn = Button(self.results_win,text="Restart",font="arial 14 bold",fg="black",highlightbackground="#007cbe",width="12",height="2",command=self.welcome_frame)
         self.restart_btn.grid(column=1, row=3, padx=(100,0))
