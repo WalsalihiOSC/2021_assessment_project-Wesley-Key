@@ -94,8 +94,6 @@ class Interface:
         self.num_range = self.student.ranges()
         self.year = self.student.year_l()
         
-        
-        
         # If entry boxes are empty or year level is not between 1 and 6, error message is set
         if len(self.stname)==0:
             self.notvalid = True
@@ -183,7 +181,12 @@ class Interface:
             
             # Count how many questions - must be ten questions and when ten questions have beem reached, display leaderboard
             self.ten_questions += 1 
-            self.display_count = Label(self.main, text=f"{self.ten_questions}/10",bg="#add8e6").grid(row=3, column=1)
+            self.display_count = Label(self.main, text=f"Question: {self.ten_questions}/10",bg="#add8e6").grid(row=3, column=1)
+        
+        elif len(var1.get()) == 0:
+            self.notvalid = True
+            messagebox.showerror("ERROR", "Please answer the question!")
+            
         else:
             wrong = Label(self.main, text="✘", fg="red", font="arial 40 bold", bg="#add8e6")
             wrong.grid(column=3, row=3, sticky=W)
@@ -193,7 +196,7 @@ class Interface:
         if self.ten_questions == 10:
             self.check_btn.destroy()
             
-            self.finish_btn = Button(self.main,text="Finish ⮕",fg="#4cbb17",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10",command=self.results_win)
+            self.finish_btn = Button(self.main,text="Finish ⮕",fg="#4cbb17",highlightbackground="#4cbb17",font="arial 14 bold",height="2", width="10", command=self.results_win)
             self.finish_btn.grid(row=4,column=3, padx=(50,40), pady=(35,60))     
     
     def results_win(self):
@@ -206,7 +209,7 @@ class Interface:
         
         self.results_win = Label(self.main_window, bg="#add8e6")
         self.results_win.grid()
-        
+
         self.leaderboard = Label(self.results_win, text=f"{self.stname} got {self.score} out of 10 :)", font="arial 17 bold", bg="#add8e6").grid(column=2, row=1, pady=(110,20))
         # Restart Button
         self.restart_btn = Button(self.results_win,text="Restart",font="arial 14 bold",fg="black",highlightbackground="#007cbe",width="12",height="2",command=self.welcome_frame)
@@ -217,14 +220,13 @@ class Interface:
         # Quit Button 
         self.quit_btn = Button(self.results_win,text="Quit",font="arial 14 bold",fg="black",highlightbackground="#ed1c24",width="12",height="2", command=self.quit)
         self.quit_btn.grid(column=3, row=3, padx=(0,130))
-
         # Empty space
         Label(self.results_win, text="    ", bg="#add8e6").grid(column=2, row=4, pady=50, padx=60)
 
     # Function   
     # Quit program function 
     def quit(self):
-        self.main_window.destroy()       
+        self.main_window.destroy() 
 
 Interface(root).welcome_frame()
 root.mainloop()

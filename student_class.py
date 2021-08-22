@@ -27,7 +27,7 @@ class Student:
         results_file.write("-------------------------\n")
         results_file.write(f"Student Name: {self.student_name} \n"
                             f"Year Level: {self.range} \n"
-                            f"Operation: {self.difficulty}")
+                            f"Operation: {self.difficulty}\n")
         
         results_file.write("-------------------------\n")
         results_file.close()
