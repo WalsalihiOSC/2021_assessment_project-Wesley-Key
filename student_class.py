@@ -22,12 +22,13 @@ class Student:
         else:
             return [0,7,8,9,10,11,12]
             
-    def write_file(self):
+    def write_file(self, player_score):
         results_file = open("math_results.text", "a")
         results_file.write("-------------------------\n")
         results_file.write(f"Student Name: {self.student_name} \n"
                             f"Year Level: {self.range} \n"
-                            f"Operation: {self.difficulty}\n")
+                            f"Difficulty: {self.difficulty}\n"
+                            f"Score: {player_score}/10\n")
         
         results_file.write("-------------------------\n")
         results_file.close()

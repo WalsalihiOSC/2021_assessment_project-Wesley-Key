@@ -201,7 +201,7 @@ class Interface:
     
     def results_win(self):
         self.restart=True
-        self.student.write_file()     
+        self.student.write_file(self.score)     
         # Destroy all widgets in questions window
         self.main.grid_remove()
         for widget in self.main.winfo_children():
